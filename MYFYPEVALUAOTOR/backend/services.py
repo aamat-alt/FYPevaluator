@@ -1,13 +1,13 @@
 import json
 import re
 from typing import List, Optional
-from openai import OpenAI
+import google.generativeai as genai
 from config import settings
 from sqlalchemy.orm import Session
 from models import Evaluation
 from difflib import SequenceMatcher
 
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+genai.configure(api_key=settings.GEMINI_API_KEY)
 
 
 def calculate_similarity(idea1: str, idea2: str) -> float:
@@ -82,25 +82,18 @@ Respond with ONLY the JSON object. No other text.
 """
 
     try:
-        # Call OpenAI API
-        response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are an expert academic advisor. Respond only with valid JSON, no other text."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            temperature=0.7,
-            max_tokens=1000
+        # Call Gemini API
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.types.GenerationConfig(
+                temperature=0.7,
+                max_output_tokens=1000
+            )
         )
         
         # Extract the response text
-        response_text = response.choices[0].message.content.strip()
+        response_text = response.text.strip()
         
         # Clean up the response (remove markdown code blocks if present)
         response_text = re.sub(r'^```json\s*', '', response_text)
@@ -140,7 +133,7 @@ Respond with ONLY the JSON object. No other text.
     except json.JSONDecodeError as e:
         raise ValueError(f"Failed to parse AI response as JSON: {str(e)}")
     except Exception as e:
-        raise Exception(f"Error calling OpenAI API: {str(e)}")
+        raise Exception(f"Error calling Gemini API: {str(e)}")
 
 
 def save_evaluation(
