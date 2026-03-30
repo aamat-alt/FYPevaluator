@@ -1,13 +1,14 @@
 import json
 import re
 from typing import List, Optional
-import google.generativeai as genai
+import google.genai as genai
 from config import settings
 from sqlalchemy.orm import Session
 from models import Evaluation
 from difflib import SequenceMatcher
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
+# Initialize Gemini API client
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
 def calculate_similarity(idea1: str, idea2: str) -> float:
@@ -43,7 +44,7 @@ def get_similar_ideas_context(similar_ideas: List[Evaluation]) -> str:
 
 def evaluate_fyp_idea(idea: str, user_id: str, db: Session) -> dict:
     """
-    Use OpenAI GPT to evaluate the FYP idea.
+    Use Google Gemini to evaluate the FYP idea.
     Returns a dictionary with the evaluation results.
     """
     # Find similar ideas in the database
@@ -83,13 +84,9 @@ Respond with ONLY the JSON object. No other text.
 
     try:
         # Call Gemini API
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=0.7,
-                max_output_tokens=1000
-            )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
         )
         
         # Extract the response text

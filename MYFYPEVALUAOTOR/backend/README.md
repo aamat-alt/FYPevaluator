@@ -1,10 +1,10 @@
 # 🎓 AI-Powered FYP Evaluator - Backend
 
-An intelligent FastAPI-based backend for evaluating Final Year Project ideas using OpenAI's GPT model.
+An intelligent FastAPI-based backend for evaluating Final Year Project ideas using Google Gemini AI.
 
 ## Features
 
-✅ **AI-Powered Evaluation** - Uses GPT-4 to analyze FYP ideas across 5 criteria
+✅ **AI-Powered Evaluation** - Uses Gemini 2.5 Flash to analyze FYP ideas across 5 criteria
 ✅ **Similarity Detection** - Identifies similar previously submitted ideas
 ✅ **Database Persistence** - Stores evaluations in MySQL
 ✅ **RESTful API** - Clean, documented endpoints
@@ -14,7 +14,7 @@ An intelligent FastAPI-based backend for evaluating Final Year Project ideas usi
 
 - **Framework**: FastAPI (Python 3.9+)
 - **Database**: MySQL with SQLAlchemy ORM
-- **AI**: OpenAI GPT-4
+- **AI**: Google Gemini 2.5 Flash via google-genai package
 - **HTTP Server**: Uvicorn
 - **Validation**: Pydantic
 
@@ -39,7 +39,7 @@ backend/
 
 - Python 3.9 or higher
 - MySQL Server running
-- OpenAI API key
+- Google Gemini API key
 
 ### 2. Clone & Install Dependencies
 
@@ -74,7 +74,7 @@ cp .env.example .env
 Edit `.env`:
 
 ```
-OPENAI_API_KEY=your_actual_openai_api_key
+GEMINI_API_KEY=your_actual_gemini_api_key
 DATABASE_URL=mysql+pymysql://root:your_password@localhost/fyp_evaluator
 HOST=0.0.0.0
 PORT=8000
@@ -219,8 +219,8 @@ The AI evaluates ideas on:
 Common errors:
 
 - `400 Bad Request` - Idea too short (< 50 characters)
-- `400 Bad Request` - OpenAI API returned invalid JSON
-- `500 Internal Server Error` - OpenAI API error
+- `400 Bad Request` - Gemini API returned invalid JSON
+- `500 Internal Server Error` - Gemini API error
 
 ## Development
 
@@ -257,10 +257,11 @@ python main.py
 - Check DATABASE_URL in .env
 - Verify MySQL credentials
 
-**"OpenAI API Error"**
-- Verify OPENAI_API_KEY is correct
-- Check account has available credits
-- Ensure gpt-4-turbo-preview model access
+**"Gemini API Error"**
+- Verify GEMINI_API_KEY is correct in .env
+- Check your Google Cloud API key has Gemini API enabled
+- Ensure gemini-2.5-flash model is available in your API key
+- Check API quota limits
 
 ---
 

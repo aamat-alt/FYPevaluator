@@ -6,7 +6,7 @@
 - Node.js 14+ and npm
 - Python 3.9+
 - MySQL 5.7+
-- OpenAI API Key
+- Google Gemini API Key
 
 ### Option 1: Manual Setup
 
@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 # Copy and configure .env
 cp .env.example .env
-# Edit .env - add your OPENAI_API_KEY and DATABASE_URL
+# Edit .env - add your GEMINI_API_KEY and DATABASE_URL
 
 # Create MySQL database
 mysql -u root -p
@@ -59,7 +59,7 @@ npm start
 # Copy Docker environment file
 cp .env.example .env.docker
 
-# Edit .env.docker with your OPENAI_API_KEY
+# Edit .env.docker with your GEMINI_API_KEY
 
 # Start all services
 docker-compose up -d
@@ -115,7 +115,7 @@ bash setup.sh
 ## 📝 First Steps After Setup
 
 1. **Fill in .env files:**
-   - Backend: Add your OpenAI API Key
+   - Backend: Add your Google Gemini API Key
    - Backend: Configure MySQL connection
    - Frontend: API URL (default is correct for local dev)
 

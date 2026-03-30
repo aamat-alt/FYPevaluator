@@ -19,7 +19,7 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 
-# Configure .env with your OpenAI API key and MySQL details
+# Configure .env with your Google Gemini API key and MySQL details
 cp .env.example .env
 
 # Run
@@ -50,7 +50,7 @@ Frontend will start at: `http://localhost:3000`
 | **Frontend** | React 18, React Router, Axios, Tailwind CSS |
 | **Backend** | FastAPI, Python 3.9+, Uvicorn |
 | **Database** | MySQL, SQLAlchemy ORM |
-| **AI** | OpenAI GPT-4 |
+| **AI** | Google Gemini 2.5 Flash (via google-genai) |
 | **API** | RESTful with Pydantic validation |
 
 ## 📊 Features
@@ -145,7 +145,7 @@ CREATE TABLE evaluations (
 
 ### Backend (.env)
 ```
-OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
 DATABASE_URL=mysql+pymysql://root:password@localhost/fyp_evaluator
 HOST=0.0.0.0
 PORT=8000
@@ -262,7 +262,7 @@ vercel deploy --prod
 - Python 3.9+ for backend
 - Node.js 14+ for frontend
 - MySQL 5.7+ for database
-- OpenAI API key with GPT-4 access
+- Google Gemini API key (get from Google AI Studio)
 
 ### CORS Configuration
 - Development: All origins allowed
@@ -270,7 +270,7 @@ vercel deploy --prod
 
 ### Rate Limiting
 - Consider implementing rate limits on `/evaluate` endpoint for production
-- OpenAI API has rate limits - monitor usage
+- Gemini API has rate limits - monitor usage
 
 ### Security
 - Never commit `.env` files
@@ -283,7 +283,7 @@ vercel deploy --prod
 | Error | Solution |
 |-------|----------|
 | "Cannot connect to MySQL" | Check DATABASE_URL, ensure MySQL is running |
-| "OpenAI API Error" | Verify API key, check account credits |
+| "Gemini API Error" | Verify GEMINI_API_KEY, check API quota and model access |
 | "CORS Error" | Backend CORS middleware needs adjustment |
 | "npm: command not found" | Install Node.js |
 | "python: command not found" | Install Python 3.9+ |
